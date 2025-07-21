@@ -266,6 +266,178 @@
       gap: 10px;
     }
 
+    /* تحسينات للوضع المظلم الاختياري */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #121212;
+        color: #f1f1f1;
+      }
+
+      .video-item, .quiz {
+        background: #1e1e1e;
+        border-color: #333;
+      }
+
+      .quiz {
+        background: #252525;
+      }
+
+      .video-item h4 {
+        color: var(--accent-color);
+      }
+    }
+
+    /* أنماط القائمة الجانبية */
+    .hamburger-menu {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .hamburger-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+    }
+
+    .hamburger-btn:hover {
+      background: var(--secondary-color);
+      transform: scale(1.1);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 280px;
+      height: 100%;
+      background: white;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+      z-index: 999;
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+
+    .sidebar.open {
+      right: 0;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .sidebar-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar-header h3 {
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--gray-color);
+    }
+
+    .sidebar-category {
+      margin: 15px 0;
+    }
+
+    .sidebar-category h4 {
+      padding: 10px 20px;
+      margin: 0;
+      color: var(--dark-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-category h4 i {
+      color: var(--primary-color);
+    }
+
+    .weeks-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .week-item {
+      padding: 12px 20px;
+      border-bottom: 1px solid #eee;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .week-item:hover {
+      background: #f8f9fa;
+    }
+
+    .week-item a {
+      color: var(--dark-color);
+      text-decoration: none;
+      flex-grow: 1;
+    }
+
+    .week-item.locked {
+      color: var(--gray-color);
+    }
+
+    .week-item.locked a {
+      color: var(--gray-color);
+    }
+
+    .week-item.current {
+      background: rgba(67, 97, 238, 0.1);
+      border-right: 3px solid var(--primary-color);
+    }
+
+    .week-item.current a {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+
+    .lock-icon {
+      color: var(--warning-color);
+      margin-right: 10px;
+    }
+
     @media (max-width: 768px) {
       header h1 {
         font-size: 20px;
@@ -295,26 +467,15 @@
         flex-direction: column;
         width: 90%;
       }
-    }
-
-    /* تحسينات للوضع المظلم الاختياري */
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: #121212;
-        color: #f1f1f1;
+      
+      .hamburger-menu {
+        top: 15px;
+        right: 15px;
       }
-
-      .video-item, .quiz {
-        background: #1e1e1e;
-        border-color: #333;
-      }
-
-      .quiz {
-        background: #252525;
-      }
-
-      .video-item h4 {
-        color: var(--accent-color);
+      
+      .sidebar {
+        width: 85%;
+        right: -85%;
       }
     }
   </style>
@@ -353,6 +514,33 @@
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
     <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
   </header>
+
+  <!-- قائمة Hamburger الجديدة -->
+  <div class="hamburger-menu">
+    <button class="hamburger-btn" id="hamburgerBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>أسابيع الدورة</h3>
+      <button class="close-btn" id="closeSidebar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-category">
+      <h4><i class="fas fa-cube"></i> Basic</h4>
+      <ul class="weeks-list" id="basicWeeks"></ul>
+    </div>
+    
+    <div class="sidebar-category">
+      <h4><i class="fas fa-rocket"></i> Professional</h4>
+      <ul class="weeks-list" id="proWeeks"></ul>
+    </div>
+  </div>
 
   <div class="category-nav">
     <button onclick="jumpToCategory('Basic')"><i class="fas fa-cube"></i> Basic</button>
@@ -494,6 +682,7 @@
       if (currentDate >= allowedDate) {
         document.getElementById(`week${weekNumber}`).style.display = "block";
         currentWeek = weekNumber;
+        updateSidebarActiveWeek();
       } else {
         alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
         if (currentWeek !== null) {
@@ -515,8 +704,104 @@
       changeWeekId(week);
     }
 
-    changeWeekId(1);
-    updateProgressBar();
+    // إنشاء عناصر القائمة الجانبية
+    function createSidebarItems() {
+      const basicWeeksList = document.getElementById('basicWeeks');
+      const proWeeksList = document.getElementById('proWeeks');
+      
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const currentDate = new Date();
+      
+      // Basic Weeks (1-7)
+      for (let i = 1; i <= 7; i++) {
+        const allowedDate = new Date(startDate);
+        allowedDate.setDate(startDate.getDate() + (i - 1) * 7);
+        
+        const weekItem = document.createElement('li');
+        weekItem.className = 'week-item';
+        if (currentDate < allowedDate) {
+          weekItem.classList.add('locked');
+        }
+        
+        weekItem.innerHTML = `
+          <a href="#" onclick="changeWeekId(${i}); return false;">
+            الأسبوع ${i}
+          </a>
+          ${currentDate < allowedDate ? '<i class="fas fa-lock lock-icon"></i>' : ''}
+        `;
+        
+        basicWeeksList.appendChild(weekItem);
+      }
+      
+      // Professional Weeks (8-14)
+      for (let i = 8; i <= 14; i++) {
+        const allowedDate = new Date(startDate);
+        allowedDate.setDate(startDate.getDate() + (i - 1) * 7);
+        
+        const weekItem = document.createElement('li');
+        weekItem.className = 'week-item';
+        if (currentDate < allowedDate) {
+          weekItem.classList.add('locked');
+        }
+        
+        weekItem.innerHTML = `
+          <a href="#" onclick="changeWeekId(${i}); return false;">
+            الأسبوع ${i}
+          </a>
+          ${currentDate < allowedDate ? '<i class="fas fa-lock lock-icon"></i>' : ''}
+        `;
+        
+        proWeeksList.appendChild(weekItem);
+      }
+    }
+
+    // تحديث العنصر النشط في القائمة الجانبية
+    function updateSidebarActiveWeek() {
+      const allWeekItems = document.querySelectorAll('.week-item');
+      allWeekItems.forEach(item => {
+        item.classList.remove('current');
+        const weekNumber = parseInt(item.textContent.match(/\d+/)[0]);
+        if (weekNumber === currentWeek) {
+          item.classList.add('current');
+        }
+      });
+    }
+
+    // إدارة فتح وإغلاق القائمة الجانبية
+    function setupSidebar() {
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const closeSidebar = document.getElementById('closeSidebar');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      
+      hamburgerBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+      
+      closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+      
+      sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+
+    // تهيئة الصفحة
+    function initPage() {
+      changeWeekId(1);
+      updateProgressBar();
+      createSidebarItems();
+      setupSidebar();
+    }
+
+    initPage();
 
      // إعدادات مهلة الجلسة (بالدقائق)
   const SESSION_TIMEOUT = 30; // 30 دقيقة
@@ -695,7 +980,7 @@
   // بدء تتبع الجلسة عند تحميل الصفحة
   document.addEventListener('DOMContentLoaded', () => {
     setupActivityTracking();
-    
+     
     // تعديل زر تسجيل الخروج الأصلي
     document.getElementById('logoutBtn').addEventListener('click', logout);
   });

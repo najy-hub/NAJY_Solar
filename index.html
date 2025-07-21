@@ -1,187 +1,283 @@
-
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>منصة رحلة المهندس - المحتوى الأسبوعي</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4895ef;
+      --danger-color: #f72585;
+      --success-color: #4cc9f0;
+      --warning-color: #f8961e;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --gray-color: #6c757d;
+      --border-radius: 12px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
     body {
       font-family: 'Cairo', sans-serif;
-      background: #111;
-      color: #fff;
+      background: #fff;
+      color: #333;
       margin: 0;
       padding: 0;
+      line-height: 1.6;
     }
 
     header, footer {
-      background: #1c1c1c;
+      background: var(--primary-color);
       padding: 20px;
       text-align: center;
       position: relative;
+      color: white;
+      box-shadow: var(--box-shadow);
+    }
+
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 24px;
     }
 
     #logoutBtn {
       position: absolute;
       left: 20px;
-      top: 20px;
-      background: #e53935;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--danger-color);
       color: #fff;
       border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
       cursor: pointer;
       font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--box-shadow);
+    }
+
+    #logoutBtn:hover {
+      background: #d11a6a;
+      transform: translateY(-50%) scale(1.05);
     }
 
     .category-label {
       font-size: 20px;
       margin: 20px;
-      color: #ffc107;
+      color: var(--primary-color);
+      font-weight: 600;
     }
 
     .week-content {
       display: none;
       padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .video-list {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
 
     .video-item {
       margin-bottom: 30px;
-      background: #1a1a1a;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      background: #fff;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      box-shadow: var(--box-shadow);
+      border: 1px solid #eee;
+      transition: var(--transition);
+    }
+
+    .video-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
 
     .video-item h4 {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       font-size: 18px;
-      color: #ffca28;
+      color: var(--primary-color);
+      font-weight: 600;
     }
 
-.bunny-video-container {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px auto;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  border: 1px solid #ccc;
-  transition: transform 0.3s ease;
-}
+    .bunny-video-container {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+      transition: var(--transition);
+    }
 
-.bunny-video-container:hover {
-  transform: scale(1.01);
-}
+    .bunny-video-container:hover {
+      transform: scale(1.01);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    }
 
-.bunny-video-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  border-radius: 0; /* مهم حتى لا يتعارض مع border-radius للحاوية */
-}
-
-/* تحسين إضافي لأصغر الشاشات */
-@media (max-width: 600px) {
-  .bunny-video-container {
-    aspect-ratio: 16 / 9;
-    border-radius: 12px;
-    margin: 16px 0;
-  }
-}
-
+    .bunny-video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
 
     .quiz {
-      background: #1a1a1a;
+      background: #f8f9fa;
       padding: 20px;
-      border-radius: 10px;
+      border-radius: var(--border-radius);
       margin-top: 20px;
+      border: 1px solid #eee;
+    }
+
+    .quiz h3 {
+      margin-top: 0;
+      color: var(--primary-color);
     }
 
     .quiz a {
-      color: #ffc107;
+      color: var(--accent-color);
       text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .quiz a:hover {
+      color: var(--secondary-color);
       text-decoration: underline;
     }
 
     #progressBar {
       width: 90%;
       max-width: 600px;
-      margin: 20px auto;
-      background: #333;
-      border-radius: 10px;
+      margin: 30px auto;
+      background: #e9ecef;
+      border-radius: 20px;
       overflow: hidden;
-      height: 20px;
+      height: 12px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     #progressBarInner {
       height: 100%;
-      background: #ffc107;
+      background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
       width: 0%;
       transition: width 0.5s ease-in-out;
+      border-radius: 20px;
     }
 
     .week-navigation {
       text-align: center;
-      margin: 20px auto;
+      margin: 30px auto;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
 
     .week-navigation button {
-      padding: 10px 20px;
-      margin: 0 10px;
-      background: #ffc107;
+      padding: 12px 25px;
+      background: var(--primary-color);
       border: none;
-      border-radius: 8px;
+      border-radius: var(--border-radius);
       font-weight: bold;
       cursor: pointer;
-      color: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--box-shadow);
+    }
+
+    .week-navigation button:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .week-navigation button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .category-nav {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 10px;
-      gap: 10px;
+      margin: 20px auto;
+      gap: 15px;
+      padding: 0 20px;
     }
 
     .category-nav button {
-      background: #444;
+      background: var(--primary-color);
       color: #fff;
       border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
+      padding: 12px 25px;
+      border-radius: var(--border-radius);
       font-weight: bold;
       cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--box-shadow);
     }
 
     .category-nav button:hover {
-      background: #666;
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 15px;
+      font-size: 14px;
+    }
+
+    .week-content h2 {
+      color: var(--dark-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     @media (max-width: 768px) {
       header h1 {
         font-size: 20px;
+        padding: 0 40px;
       }
 
-      .video-item h4 {
-        font-size: 16px;
-        text-align: center;
+      #logoutBtn {
+        position: static;
+        margin: 15px auto 0;
+        transform: none;
+        width: fit-content;
+        display: inline-flex;
       }
 
       .category-nav {
@@ -189,15 +285,36 @@
         align-items: center;
       }
 
-      #logoutBtn {
-        position: static;
-        margin-top: 10px;
-        display: block;
-      }
-
+      .category-nav button,
       .week-navigation button {
         width: 100%;
-        margin: 10px 0;
+        justify-content: center;
+      }
+
+      .week-navigation {
+        flex-direction: column;
+        width: 90%;
+      }
+    }
+
+    /* تحسينات للوضع المظلم الاختياري */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #121212;
+        color: #f1f1f1;
+      }
+
+      .video-item, .quiz {
+        background: #1e1e1e;
+        border-color: #333;
+      }
+
+      .quiz {
+        background: #252525;
+      }
+
+      .video-item h4 {
+        color: var(--accent-color);
       }
     }
   </style>
@@ -232,15 +349,14 @@
   xhr.send();
 </script>
 
-
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
-    <button id="logoutBtn" onclick="logout()">🚪 تسجيل الخروج</button>
+    <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
   </header>
 
   <div class="category-nav">
-    <button onclick="jumpToCategory('Basic')">🧱 Basic</button>
-    <button onclick="jumpToCategory('Professional')">🚀 Professional</button>
+    <button onclick="jumpToCategory('Basic')"><i class="fas fa-cube"></i> Basic</button>
+    <button onclick="jumpToCategory('Professional')"><i class="fas fa-rocket"></i> Professional</button>
   </div>
 
   <div id="progressBar">
@@ -250,8 +366,8 @@
   <main id="weeks"></main>
 
   <div class="week-navigation">
-    <button onclick="navigateWeek(-1)">⬅️ السابق</button>
-    <button onclick="navigateWeek(1)">التالي ➡️</button>
+    <button onclick="navigateWeek(-1)"><i class="fas fa-arrow-right"></i> السابق</button>
+    <button onclick="navigateWeek(1)">التالي <i class="fas fa-arrow-left"></i></button>
   </div>
 
   <footer>
@@ -259,6 +375,8 @@
   </footer>
 
   <script>
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
     function logout() {
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("courseStartDate");
@@ -302,10 +420,11 @@
         { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
       ],
     ];
-const quizLinks = [
-    "https://najy-hub.github.io/Assignment1/", " https://najy-hub.github.io/Assignment2/", "https://najy-hub.github.io/Assignment3/", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
-    "quiz8.html", "quiz9.html", "quiz10.html", "quiz11.html", "quiz12.html", "quiz13.html", "quiz14.html"
-  ];
+
+    const quizLinks = [
+      "https://najy-hub.github.io/Assignment1/", " https://najy-hub.github.io/Assignment2/", "https://najy-hub.github.io/Assignment3/", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
+      "quiz8.html", "quiz9.html", "quiz10.html", "quiz11.html", "quiz12.html", "quiz13.html", "quiz14.html"
+    ];
     
     for (let i = 1; i <= videoData.length; i++) {
       const weekDiv = document.createElement("div");
@@ -322,9 +441,9 @@ const quizLinks = [
       title.textContent = `الأسبوع ${i} - ${type}`;
 
       if (currentDate < allowedDate) {
-        title.innerHTML += " 🔒";
+        title.innerHTML += ` <i class="fas fa-lock" style="color: var(--warning-color);"></i>`;
       } else {
-        title.innerHTML += " ✅";
+        title.innerHTML += ` <i class="fas fa-check-circle" style="color: var(--success-color);"></i>`;
       }
 
       const ul = document.createElement("ul");
@@ -332,21 +451,21 @@ const quizLinks = [
       videoData[i - 1].forEach(video => {
         const li = document.createElement("li");
         li.className = "video-item";
-    li.innerHTML = `
-  <h4>${video.title}</h4>
-  <div class="bunny-video-container">
-    <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
-  </div>
-`;
-
+        li.innerHTML = `
+          <h4>${video.title}</h4>
+          <div class="bunny-video-container">
+            <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
+          </div>
+        `;
         ul.appendChild(li);
       });
 
       const quiz = document.createElement("div");
       quiz.className = "quiz";
-    
-      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizLinks[i - 1]}" target="_blank">رابط الاختبار</a></p>`;
-
+      quiz.innerHTML = `
+        <h3><i class="fas fa-clipboard-list"></i> اختبار الأسبوع</h3>
+        <p><a href="${quizLinks[i - 1]}" target="_blank"><i class="fas fa-external-link-alt"></i> رابط الاختبار</a></p>
+      `;
 
       weekDiv.appendChild(title);
       weekDiv.appendChild(ul);
@@ -355,58 +474,39 @@ const quizLinks = [
     }
 
     function updateProgressBar() {
-  const startDate = new Date(localStorage.getItem("courseStartDate"));
-  const currentDate = new Date();
-  const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-  const weekUnlocked = Math.min(14, Math.ceil((diffInDays + 1) / 7)); // أضف 1 حتى يبدأ من اليوم الأول
-  const percentage = (weekUnlocked / 14) * 100;
-  document.getElementById("progressBarInner").style.width = `${percentage}%`;
-}
-
-
-function changeWeekId(weekNumber) {
-  const allWeeks = document.querySelectorAll(".week-content");
-  allWeeks.forEach(div => div.style.display = "none");
-
-  const startDate = new Date(localStorage.getItem("courseStartDate"));
-  const currentDate = new Date();
-  const allowedDate = new Date(startDate);
-  allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
-
-  if (currentDate >= allowedDate) {
-    document.getElementById(`week${weekNumber}`).style.display = "block";
-    currentWeek = weekNumber;
-  } else {
-    alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
-    if (currentWeek !== null) {
-      document.getElementById(`week${currentWeek}`).style.display = "block";
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const currentDate = new Date();
+      const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+      const weekUnlocked = Math.min(14, Math.ceil((diffInDays + 1) / 7));
+      const percentage = (weekUnlocked / 14) * 100;
+      document.getElementById("progressBarInner").style.width = `${percentage}%`;
     }
-  }
-}
 
+    function changeWeekId(weekNumber) {
+      const allWeeks = document.querySelectorAll(".week-content");
+      allWeeks.forEach(div => div.style.display = "none");
+
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const currentDate = new Date();
+      const allowedDate = new Date(startDate);
+      allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
+
+      if (currentDate >= allowedDate) {
+        document.getElementById(`week${weekNumber}`).style.display = "block";
+        currentWeek = weekNumber;
+      } else {
+        alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
+        if (currentWeek !== null) {
+          document.getElementById(`week${currentWeek}`).style.display = "block";
+        }
+      }
+    }
 
     function navigateWeek(step) {
       if (currentWeek === null) return;
       const nextWeek = currentWeek + step;
       if (nextWeek >= 1 && nextWeek <= videoData.length) {
         changeWeekId(nextWeek);
-      }
-    }
-
-    function expandVideo(button) {
-      const iframe = button.previousElementSibling;
-      if (iframe.style.width !== "100vw") {
-        iframe.style.width = "100vw";
-        iframe.style.height = "90vh";
-        iframe.style.position = "fixed";
-        iframe.style.top = "5vh";
-        iframe.style.left = "0";
-        iframe.style.zIndex = "9999";
-        iframe.style.borderRadius = "0";
-        button.textContent = "❌ إغلاق الفيديو";
-      } else {
-        iframe.removeAttribute("style");
-        button.textContent = "🔍 توسيع الفيديو";
       }
     }
 

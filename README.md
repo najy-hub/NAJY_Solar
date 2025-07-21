@@ -205,7 +205,7 @@
 <body>
 <script>
   const username = localStorage.getItem("studentEmail");
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwbX5xiWpuqmI84EaUN8ixbEDtIxpRUVg7MB024__PEniadqJFHoRjrpu7WVtp9OXrX9g/exec";
 
   const xhr = new XMLHttpRequest();
   xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);

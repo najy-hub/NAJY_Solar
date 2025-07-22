@@ -685,11 +685,17 @@
         updateSidebarActiveWeek();
       } else {
         alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
-        if (currentWeek !== null) {
-          document.getElementById(`week${currentWeek}`).style.display = "block";
-        }
-      }
-    }
+        
+        // حساب الأسبوع الحالي المسموح به
+    const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+    const allowedWeek = Math.min(14, Math.max(1, Math.floor(diffInDays / 7) + 1));
+    
+    // عرض الأسبوع المسموح به
+    document.getElementById(`week${allowedWeek}`).style.display = "block";
+    currentWeek = allowedWeek;
+    updateSidebarActiveWeek();
+  }
+}
 
     function navigateWeek(step) {
       if (currentWeek === null) return;

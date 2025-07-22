@@ -478,6 +478,31 @@
         right: -85%;
       }
     }
+    .locked-content {
+  position: relative;
+}
+
+.lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  color: var(--warning-color);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.lock-overlay i {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
   </style>
 </head>
 <body>
@@ -628,11 +653,18 @@
       const title = document.createElement("h2");
       title.textContent = `الأسبوع ${i} - ${type}`;
 
-      if (currentDate < allowedDate) {
-        title.innerHTML += ` <i class="fas fa-lock" style="color: var(--warning-color);"></i>`;
-      } else {
-        title.innerHTML += ` <i class="fas fa-check-circle" style="color: var(--success-color);"></i>`;
-      }
+     if (currentDate < allowedDate) {
+  title.innerHTML += ` <i class="fas fa-lock" style="color: var(--warning-color);"></i>`;
+  weekDiv.classList.add('locked-content');
+  weekDiv.innerHTML += `
+    <div class="lock-overlay">
+      <i class="fas fa-lock"></i>
+      <p>هذا المحتوى سيفتح في ${allowedDate.toLocaleDateString()}</p>
+    </div>
+  `;
+} else {
+  title.innerHTML += ` <i class="fas fa-check-circle" style="color: var(--success-color);"></i>`;
+}
 
       const ul = document.createElement("ul");
       ul.className = "video-list";
@@ -698,12 +730,22 @@
 }
 
     function navigateWeek(step) {
-      if (currentWeek === null) return;
-      const nextWeek = currentWeek + step;
-      if (nextWeek >= 1 && nextWeek <= videoData.length) {
-        changeWeekId(nextWeek);
-      }
+  if (currentWeek === null) return;
+  
+  const nextWeek = currentWeek + step;
+  if (nextWeek >= 1 && nextWeek <= videoData.length) {
+    const startDate = new Date(localStorage.getItem("courseStartDate"));
+    const currentDate = new Date();
+    const allowedDate = new Date(startDate);
+    allowedDate.setDate(startDate.getDate() + (nextWeek - 1) * 7);
+    
+    if (currentDate >= allowedDate) {
+      changeWeekId(nextWeek);
+    } else {
+      alert("لا يمكنك الوصول إلى هذا الأسبوع حتى: " + allowedDate.toLocaleDateString());
     }
+  }
+}
 
     function jumpToCategory(category) {
       const week = categoryIndexes[category];
@@ -800,12 +842,17 @@
     }
 
     // تهيئة الصفحة
-    function initPage() {
-      changeWeekId(1);
-      updateProgressBar();
-      createSidebarItems();
-      setupSidebar();
-    }
+   function initPage() {
+  const startDate = new Date(localStorage.getItem("courseStartDate"));
+  const currentDate = new Date();
+  const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+  const allowedWeek = Math.min(14, Math.max(1, Math.floor(diffInDays / 7) + 1));
+  
+  changeWeekId(allowedWeek);
+  updateProgressBar();
+  createSidebarItems();
+  setupSidebar();
+}
 
     initPage();
 
